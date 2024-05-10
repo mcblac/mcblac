@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>舒尔特方格</title>
+    <link rel="shortcut icon" href=".水花头像.jpg">
+    <link rel="stylesheet" type="text/css".舒尔特方格.css">
+</head>
+
+<body>
+    <h1 align="center">舒尔特方格</h1>
+    <table id="main_table" align="center"></table>
+    <p id="start_button" align="center" onclick="start_game()">开始</p>
+    <p id="timer_off" align="center">0.000</p>
+</body>
+
+<script>
+    // 萌新刚学js，写得很烂
+
+    // 使用Fisher-Yates算法随机打乱
+    Array.prototype.shuffle = function () {
+        let array = this;
+        let m = array.length,
+            t, i;
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+        return array;
+    }
+
+    // 在字符串的某个位置插入子字符串
+    function insertCharacter(str, char, index) {
+        return str.slice(0, index) + char + str.slice(index);
+    }
+
+    // 填充表格元素
+    var table = document.getElementById('main_table')
+    for (var i = 0; i < 5; i++) {
+        var line = document.createElement('tr')
+        for (var j = 0; j < 5; j++) {
+            var number = document.createElement('td');
+            number.innerText = 6;
+            number.onclick = on_click_num;
+            line.appendChild(number);
+        }
+        table.appendChild(line)
+    }
+
+    var start_time = 0
+    var timer = document.getElementById('timer_off')
+    var clock_obj
+    // 点击数字事件
+    var cur_max = 1     //当前最大数字
+    function on_click_num() {
+        clicked_num = parseInt(this.innerText)
+        if (clicked_num == cur_max) {
+            cur_max += 1
+            this.style.color = 'green'
+            if (cur_max == 25){
+                window.clearInterval(clock_obj)
+            }
+        } else if (clicked_num > cur_max) {
+            this.style.color = 'red'
+            setTimeout(() => this.style.color = 'black', 300)
+        }
+    }
+
+
+    // 开始舒尔特方格
+    function start_game() {
+        // 生成1-25的数组并打乱
+        let arr = new Array;
+        for (let i = 1; i <= 25; i++) {
+            arr.push(i)
+        }
+        arr.shuffle();
+
+        // 将随机数组填入表格
+        let idx = 0
+        let table = document.getElementById('main_table')
+        for (let tr of table.childNodes) {
+            for (let td of tr.childNodes) {
+                td.innerText = arr[idx++]
+                td.style.color = 'black'
+            }
+        }
+
+        // 重置最大数字和计时
+        cur_max = 1
+        start_time = new Date().getTime()
+        window.clearInterval(clock_obj)
+        clock_obj = self.setInterval("clock()", 1);
+        
+    }
+
+    // 计时器
+    function clock() {
+        let d = new Date();
+        let t = d.getTime();
+        let time_diff = t - start_time;
+        let second = Math.floor(time_diff / 1000)
+        let millisecond = (time_diff % 1000).toString()
+        while (millisecond.length < 3){
+            millisecond += '0'
+        }
+        timer.innerText = second + '.' + millisecond;
+    }
+
+
+</script>
+
+</html>
