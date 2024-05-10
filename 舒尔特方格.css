@@ -1,0 +1,45 @@
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 500px;
+    text-align: center;
+    vertical-align: center;
+    /* padding: 15px; */
+    /* background-color: green; */
+    /* color: white; */
+    /* caption {caption-side:bottom;}	设置表格标题的位置 */
+}
+
+tr {
+    height: 100px;
+}
+
+td {
+    font-size: 40px;
+    transition:
+        transform 0.1s ease-in-out,
+        color 0.1s ease-in-out
+    ;
+    user-select: none;
+}
+
+td:hover {
+    transform: scale(1.2);
+}
+
+
+#start_button {
+    border: 1px solid black;
+    border-collapse: collapse;
+    max-width: 200px;
+    font-size: 40px;
+    margin: 0 auto;
+    margin-top: 20px;
+    transition: transform 0.1s ease-in-out;
+    user-select: none;
+}
+
+#start_button:hover {
+    background-color: black;
+    color: white;
+}
